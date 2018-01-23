@@ -4,6 +4,8 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const multer = require('multer');
+const upload = multer();
 const mongoose = require('mongoose');
 const dbConfig = require('./config/database');
 
@@ -26,8 +28,16 @@ db.on('error', (err) => {
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
+// for parsing application/json
 app.use(bodyParser.json());
+
+// for parsing application/xwww-
 app.use(bodyParser.urlencoded({ extended: false }));
+
+// for parsing multipart/form-data
+app.use(upload.array());
+app.use(express.static('public'));
+
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 

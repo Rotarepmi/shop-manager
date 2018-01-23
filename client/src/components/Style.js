@@ -1,7 +1,10 @@
 import styled from 'styled-components';
 
-const Table = styled.table`
+const MainDiv = styled.div`
   font-family: arial, sans-serif;
+`;
+
+const Table = styled.table`
   border-collapse: collapse;
   width: 100%;
 `;
@@ -24,6 +27,12 @@ const TableRow = styled.tr`
   }
 `;
 
-const styles = { Table, TableData, TableHeader, TableRow };
+const Input = styled.input`
+  margin: 5px;
+  border-radius: 5px;
+  padding: 5px;
+`;
+
+const styles = { MainDiv, Table, TableData, TableHeader, TableRow, Input };
 
 export default styles;

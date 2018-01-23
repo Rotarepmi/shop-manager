@@ -12,4 +12,4 @@ const priceSchema = mongoose.Schema({
   }
 });
 
-const prices = module.exports = mongoose.model('proces', priceSchema);
+const prices = module.exports = mongoose.model('prices', priceSchema);

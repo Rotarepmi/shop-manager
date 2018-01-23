@@ -32,10 +32,19 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
-const index = require('./routes/index');
-const products = require('./routes/products');
+const index = require('./routes/index'),
+      products = require('./routes/products'),
+      prices = require('./routes/prices'),
+      warehouse = require('./routes/warehouse'),
+      sold = require('./routes/sold'),
+      sale = require('./routes/sale');
+
 app.use('/', index);
 app.use('/products', products);
+app.use('/prices', prices);
+app.use('/warehouse', warehouse);
+app.use('/sold', sold);
+app.use('/sale', sale);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

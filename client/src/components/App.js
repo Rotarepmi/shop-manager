@@ -10,8 +10,7 @@ class App extends Component {
       warehouse: [],
       sale: [],
       sold: []
-    };
-    this.addProduct = this.addProduct.bind(this);
+    }
   }
 
   componentDidMount() {
@@ -23,11 +22,10 @@ class App extends Component {
       });
   }
 
-  addProduct(event) {
+  addProduct = (event) => {
     event.preventDefault();
     const data = new FormData(event.target);
-
-    fetch('/products/addProd', {
+    fetch('/newProduct', {
       method: 'POST',
       body: data,
     })
@@ -49,7 +47,7 @@ class App extends Component {
           <styles.Input type="text" name="name" placeholder="Nazwa produktu" required></styles.Input>
           <styles.Input type="text" name="manufacturer" placeholder="Producent" required></styles.Input>
           <styles.Input type="text" name="category" placeholder="Kategoria" required></styles.Input>
-          <styles.Input type="number" name="price" placeholder="Cena produktu" required></styles.Input>
+          <styles.Input type="text" name="price" placeholder="Cena produktu" required></styles.Input>
           <styles.Input type="number" name="am" placeholder="Ilość" required></styles.Input>
 
           <button>Dodaj produkt</button>

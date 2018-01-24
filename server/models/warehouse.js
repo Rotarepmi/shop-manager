@@ -6,14 +6,10 @@ const wareSchema = mongoose.Schema({
     type: Number,
     required: true
   },
-  amount: {
+  am: {
     type: Number,
-    required: true
-  },
-  status: {
-    type: Boolean,
     required: true
   }
 });
 
-const warehouse = module.exports = mongoose.model('warehouse', wareSchema);
+const warehouse = module.exports = mongoose.model('warehouse', wareSchema, 'warehouse');

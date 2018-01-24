@@ -44,6 +44,18 @@ const InputTable = styled.input`
   background-color: transparent;
 `;
 
-const styles = { MainDiv, Table, TableData, TableHeader, TableRow, Input, FormTable, InputTable };
+const DeleteBtn = styled.button`
+  border: none;
+  background: none;
+  color: red;
+  font-weight: bold;
+  cursor: pointer;
+
+  &:hover {
+    color: black;
+  }
+`;
+
+const styles = { MainDiv, Table, TableData, TableHeader, TableRow, Input, FormTable, InputTable, DeleteBtn };
 
 export default styles;

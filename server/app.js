@@ -48,7 +48,7 @@ const index = require('./routes/index'),
       warehouse = require('./routes/warehouse'),
       sold = require('./routes/sold'),
       sale = require('./routes/sale'),
-      newProduct = require('./routes/newProduct');
+      prod = require('./routes/prod');
 
 app.use('/', index);
 app.use('/products', products);
@@ -56,7 +56,7 @@ app.use('/prices', prices);
 app.use('/warehouse', warehouse);
 app.use('/sold', sold);
 app.use('/sale', sale);
-app.use('/newProduct', newProduct);
+app.use('/prod', prod);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

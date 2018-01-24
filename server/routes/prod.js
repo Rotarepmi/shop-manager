@@ -25,4 +25,11 @@ router.post('/', (req, res) => {
   warehouse.save(err =>  err ? console.log(err) : res.json('success'));
 });
 
+router.delete('/:code', (req, res) => {
+  const query = {code: req.params.code};
+  Products.remove(query, err => {if(err) console.log(err)});
+  Prices.remove(query, err => {if(err) console.log(err)});
+  Warehouse.remove(query, err => err ? console.log(err) : res.json('success'));
+});
+
 module.exports = router;

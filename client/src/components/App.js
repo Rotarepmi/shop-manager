@@ -29,14 +29,24 @@ class App extends Component {
   addProduct = (event) => {
     event.preventDefault();
     const data = new FormData(event.target);
-    fetch('/newProduct', {
+    fetch('/prod', {
       method: 'POST',
-      body: data,
+      body: data
     })
       .then(res => res.json())
       .then(response => {
-        if(response)
-          this.fetchList();
+        if(response) this.fetchList();
+      });
+  }
+
+  deleteProduct = (pcode, e) => {
+    e.preventDefault();
+    fetch('/prod/'+pcode, {
+      method: 'DELETE'
+    })
+      .then(res => res.json())
+      .then(response => {
+        if(response) this.fetchList();
       });
   }
 
@@ -62,6 +72,9 @@ class App extends Component {
         <styles.Table>
           <tbody>
             <styles.TableRow>
+              <styles.TableHeader>
+                #
+              </styles.TableHeader>
               <styles.TableHeader>
                 Kod
               </styles.TableHeader>
@@ -90,6 +103,13 @@ class App extends Component {
 
             {this.state.products.slice(0).reverse().map(product =>
               <styles.TableRow key={product._id}>
+                <styles.TableData>
+                  <styles.DeleteBtn type="button" data-code={product.code}
+                    onClick={(e) => this.deleteProduct(product.code, e)}
+                  >
+                    X
+                  </styles.DeleteBtn>
+                </styles.TableData>
                 <styles.TableData>
                   <styles.FormTable>
                     <styles.InputTable type="number" name="code" value={product.code} required />

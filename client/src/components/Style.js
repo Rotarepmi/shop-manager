@@ -33,6 +33,17 @@ const Input = styled.input`
   padding: 5px;
 `;
 
-const styles = { MainDiv, Table, TableData, TableHeader, TableRow, Input };
+const FormTable = styled.form`
+  width: 90%;
+`;
+
+const InputTable = styled.input`
+  width: 100%;
+  border: none;
+  padding: 5px;
+  background-color: transparent;
+`;
+
+const styles = { MainDiv, Table, TableData, TableHeader, TableRow, Input, FormTable, InputTable };
 
 export default styles;

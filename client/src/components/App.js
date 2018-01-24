@@ -14,6 +14,10 @@ class App extends Component {
   }
 
   componentDidMount() {
+    this.fetchList();
+  }
+
+  fetchList = () => {
     fetch('/products/list')
       .then(res => res.json())
       .then(products => {
@@ -31,7 +35,8 @@ class App extends Component {
     })
       .then(res => res.json())
       .then(response => {
-        console.log(response);
+        if(response)
+          this.fetchList();
       });
   }
 
@@ -43,12 +48,12 @@ class App extends Component {
         <h2>Dodaj produkt</h2>
 
         <form onSubmit={this.addProduct}>
-          <styles.Input type="number" name="code" placeholder="Kod produktu" required></styles.Input>
-          <styles.Input type="text" name="name" placeholder="Nazwa produktu" required></styles.Input>
-          <styles.Input type="text" name="manufacturer" placeholder="Producent" required></styles.Input>
-          <styles.Input type="text" name="category" placeholder="Kategoria" required></styles.Input>
-          <styles.Input type="text" name="price" placeholder="Cena produktu" required></styles.Input>
-          <styles.Input type="number" name="am" placeholder="Ilość" required></styles.Input>
+          <styles.Input type="number" name="code" placeholder="Kod produktu" required />
+          <styles.Input type="text" name="name" placeholder="Nazwa produktu" required />
+          <styles.Input type="text" name="manufacturer" placeholder="Producent" required />
+          <styles.Input type="text" name="category" placeholder="Kategoria" required />
+          <styles.Input type="text" name="price" placeholder="Cena produktu" required />
+          <styles.Input type="number" name="am" placeholder="Ilość" required />
 
           <button>Dodaj produkt</button>
         </form>
@@ -70,10 +75,10 @@ class App extends Component {
                 Kategoria
               </styles.TableHeader>
               <styles.TableHeader>
-                Cena (z obniżką)
+                Cena (z obniżką) zł
               </styles.TableHeader>
               <styles.TableHeader>
-                Obniżka
+                Obniżka %
               </styles.TableHeader>
               <styles.TableHeader>
                 Magazyn
@@ -83,31 +88,56 @@ class App extends Component {
               </styles.TableHeader>
             </styles.TableRow>
 
-            {this.state.products.map(product =>
+            {this.state.products.slice(0).reverse().map(product =>
               <styles.TableRow key={product._id}>
                 <styles.TableData>
-                  {product.code}
+                  <styles.FormTable>
+                    <styles.InputTable type="number" name="code" value={product.code} required />
+                  </styles.FormTable>
                 </styles.TableData>
                 <styles.TableData>
-                  {product.name}
+                  <styles.FormTable>
+                    <styles.InputTable type="text" name="name" value={product.name} required />
+                  </styles.FormTable>
                 </styles.TableData>
                 <styles.TableData>
-                  {product.manufacturer}
+                  <styles.FormTable>
+                    <styles.InputTable type="text" name="manufacturer" value={product.manufacturer} required />
+                  </styles.FormTable>
                 </styles.TableData>
                 <styles.TableData>
-                  {product.category}
+                  <styles.FormTable>
+                    <styles.InputTable type="text" name="category" value={product.category} required />
+                  </styles.FormTable>
                 </styles.TableData>
                 <styles.TableData>
-                  {product.prod_sale.length > 0 ? (Math.round((product.prod_price[0].price * (100 - product.prod_sale[0].reduction))) / 100).toFixed(2) : product.prod_price[0].price}zł
+                  <styles.FormTable>
+                    <styles.InputTable type="text" name="manufacturer"
+                      value={product.prod_sale.length > 0 ? (Math.round((product.prod_price[0].price * (100 - product.prod_sale[0].reduction))) / 100).toFixed(2) : product.prod_price[0].price}
+                      required
+                    />
+                  </styles.FormTable>
                 </styles.TableData>
                 <styles.TableData>
-                  {product.prod_sale.length > 0 ? product.prod_sale[0].reduction : '--'}%
+                  <styles.FormTable>
+                    <styles.InputTable type="number" name="manufacturer"
+                      value={product.prod_sale.length > 0 ? product.prod_sale[0].reduction : 0}
+                      required
+                    />
+                  </styles.FormTable>
                 </styles.TableData>
                 <styles.TableData>
-                  {product.prod_ware[0].am}
+                  <styles.FormTable>
+                    <styles.InputTable type="number" name="category" value={product.prod_ware[0].am} required />
+                  </styles.FormTable>
                 </styles.TableData>
                 <styles.TableData>
-                  {product.prod_sold.length > 0 ? product.prod_sold[0].amount : '--'}
+                  <styles.FormTable>
+                    <styles.InputTable type="number" name="manufacturer"
+                      value={product.prod_sold.length > 0 ? product.prod_sold[0].amount : 0}
+                      required
+                    />
+                  </styles.FormTable>
                 </styles.TableData>
               </styles.TableRow>
             )}

@@ -22,7 +22,7 @@ router.post('/', (req, res) => {
 
   products.save(err => {if(err) console.log(err)});
   prices.save(err => {if(err) console.log(err)});
-  warehouse.save(err =>  err ? console.log(err) : res.json('Zapisano w bazie'));
+  warehouse.save(err =>  err ? console.log(err) : res.json('success'));
 });
 
 module.exports = router;

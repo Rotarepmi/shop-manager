@@ -5,7 +5,7 @@ var router = express.Router();
 const Products = require('../models/products');
 
 /* GET products listing. */
-router.get('/list', function(req, res, next) {
+router.get('/list', (req, res, next) => {
   Products.aggregate(
     [{
       $lookup: {
@@ -42,7 +42,7 @@ router.get('/list', function(req, res, next) {
     if(err) {
       console.log(err);
     }
-    else{
+    else {
       res.json(products);
     }
   });

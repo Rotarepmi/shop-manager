@@ -19,10 +19,9 @@ class App extends Component {
 
   fetchList = () => {
     fetch('/products/list')
-      .then(res => res.json())
+      .then(res => res ? res.json() : console.log('server error'))
       .then(products => {
         this.setState({products});
-        console.log(products);
       });
   }
 
@@ -33,10 +32,7 @@ class App extends Component {
       method: 'POST',
       body: data
     })
-      .then(res => res.json())
-      .then(response => {
-        if(response) this.fetchList();
-      });
+    .then(response => {if(response) this.fetchList()});
   }
 
   deleteProduct = (pcode, e) => {
@@ -44,10 +40,7 @@ class App extends Component {
     fetch('/prod/'+pcode, {
       method: 'DELETE'
     })
-      .then(res => res.json())
-      .then(response => {
-        if(response) this.fetchList();
-      });
+    .then(response => {if(response) this.fetchList()});
   }
 
   render() {

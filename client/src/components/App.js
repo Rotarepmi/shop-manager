@@ -43,6 +43,76 @@ class App extends Component {
     .then(response => {if(response) this.fetchList()});
   }
 
+  editName = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.target);
+    fetch('/products/editName', {
+      method: 'POST',
+      body: data
+    })
+    .then(response => {if(response) this.fetchList()});
+  }
+
+  editManufacturer = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.target);
+    fetch('/products/editManufacturer', {
+      method: 'POST',
+      body: data
+    })
+    .then(response => {if(response) this.fetchList()});
+  }
+
+  editCategory = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.target);
+    fetch('/products/editCategory', {
+      method: 'POST',
+      body: data
+    })
+    .then(response => {if(response) this.fetchList()});
+  }
+
+  editPrice = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.target);
+    fetch('/prices/editPrice', {
+      method: 'POST',
+      body: data
+    })
+    .then(response => {if(response) this.fetchList()});
+  }
+
+  editSale = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.target);
+    fetch('/sale/editSale', {
+      method: 'POST',
+      body: data
+    })
+    .then(response => {if(response) this.fetchList()});
+  }
+
+  editWare = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.target);
+    fetch('/warehouse/editWare', {
+      method: 'POST',
+      body: data
+    })
+    .then(response => {if(response) this.fetchList()});
+  }
+
+  editSold = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.target);
+    fetch('/sold/editSold', {
+      method: 'POST',
+      body: data
+    })
+    .then(response => {if(response) this.fetchList()});
+  }
+
   render() {
     return (
       <styles.MainDiv>
@@ -81,10 +151,13 @@ class App extends Component {
                 Kategoria
               </styles.TableHeader>
               <styles.TableHeader>
-                Cena (z obniżką) zł
+                Cena (przed obniżką) zł
               </styles.TableHeader>
               <styles.TableHeader>
                 Obniżka %
+              </styles.TableHeader>
+              <styles.TableHeader>
+                Cena (po obniżce) zł
               </styles.TableHeader>
               <styles.TableHeader>
                 Magazyn
@@ -104,49 +177,57 @@ class App extends Component {
                   </styles.DeleteBtn>
                 </styles.TableData>
                 <styles.TableData>
-                  <styles.FormTable>
-                    <styles.InputTable type="number" name="code" value={product.code} required />
-                  </styles.FormTable>
+                  {product.code}
                 </styles.TableData>
                 <styles.TableData>
-                  <styles.FormTable>
+                  <styles.FormTable onSubmit={this.editName}>
+                    <input type="hidden" name="code" value={product.code} required />
                     <styles.InputTable type="text" name="name" value={product.name} required />
                   </styles.FormTable>
                 </styles.TableData>
                 <styles.TableData>
-                  <styles.FormTable>
+                  <styles.FormTable onSubmit={this.editManufacturer}>
+                    <input type="hidden" name="code" value={product.code} required />
                     <styles.InputTable type="text" name="manufacturer" value={product.manufacturer} required />
                   </styles.FormTable>
                 </styles.TableData>
                 <styles.TableData>
-                  <styles.FormTable>
+                  <styles.FormTable onSubmit={this.editCategory}>
+                    <input type="hidden" name="code" value={product.code} required />
                     <styles.InputTable type="text" name="category" value={product.category} required />
                   </styles.FormTable>
                 </styles.TableData>
                 <styles.TableData>
-                  <styles.FormTable>
-                    <styles.InputTable type="text" name="manufacturer"
-                      value={product.prod_sale.length > 0 ? (Math.round((product.prod_price[0].price * (100 - product.prod_sale[0].reduction))) / 100).toFixed(2) : product.prod_price[0].price}
+                  <styles.FormTable onSubmit={this.editPrice}>
+                    <input type="hidden" name="code" value={product.code} required />
+                    <styles.InputTable type="text" name="price"
+                      value={product.prod_price[0].price}
                       required
                     />
                   </styles.FormTable>
                 </styles.TableData>
                 <styles.TableData>
-                  <styles.FormTable>
-                    <styles.InputTable type="number" name="manufacturer"
+                  <styles.FormTable onSubmit={this.editSale}>
+                    <input type="hidden" name="code" value={product.code} required />
+                    <styles.InputTable type="number" name="sale"
                       value={product.prod_sale.length > 0 ? product.prod_sale[0].reduction : 0}
                       required
                     />
                   </styles.FormTable>
                 </styles.TableData>
                 <styles.TableData>
-                  <styles.FormTable>
-                    <styles.InputTable type="number" name="category" value={product.prod_ware[0].am} required />
+                  {product.prod_sale.length > 0 ? (Math.round((product.prod_price[0].price * (100 - product.prod_sale[0].reduction))) / 100).toFixed(2) : product.prod_price[0].price}
+                </styles.TableData>
+                <styles.TableData>
+                  <styles.FormTable onSubmit={this.editWare}>
+                    <input type="hidden" name="code" value={product.code} required />
+                    <styles.InputTable type="number" name="warehouse" value={product.prod_ware[0].am} required />
                   </styles.FormTable>
                 </styles.TableData>
                 <styles.TableData>
-                  <styles.FormTable>
-                    <styles.InputTable type="number" name="manufacturer"
+                  <styles.FormTable onSubmit={this.editSold}>
+                    <input type="hidden" name="code" value={product.code} required />
+                    <styles.InputTable type="number" name="sold"
                       value={product.prod_sold.length > 0 ? product.prod_sold[0].amount : 0}
                       required
                     />

@@ -13,6 +13,7 @@ const TableData = styled.td`
   border: 1px solid #dddddd;
   text-align: left;
   padding: 8px;
+  font-size: 0.8em;
 `;
 
 const TableHeader = styled.th`
@@ -31,6 +32,7 @@ const Input = styled.input`
   margin: 5px;
   border-radius: 5px;
   padding: 5px;
+  font-size: inherit;
 `;
 
 const FormTable = styled.form`

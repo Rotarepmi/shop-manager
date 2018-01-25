@@ -48,4 +48,17 @@ router.get('/list', (req, res, next) => {
   });
 });
 
+// Post edit functions
+router.post('/editName', (req, res) => {
+  Products.update({code: req.body.code}, {$set: {name: req.body.name}}, err => err ? console.log(err) : res.json('success'));
+});
+
+router.post('/editManufacturer', (req, res) => {
+  Products.update({code: req.body.code}, {$set: {manufacturer: req.body.manufacturer}}, err => err ? console.log(err) : res.json('success'));
+});
+
+router.post('/editCategory', (req, res) => {
+  Products.update({code: req.body.code}, {$set: {category: req.body.category}}, err => err ? console.log(err) : res.json('success'));
+});
+
 module.exports = router;

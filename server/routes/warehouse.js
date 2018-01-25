@@ -16,4 +16,9 @@ router.get('/', function(req, res, next) {
   });
 });
 
+// Post edit functions
+router.post('/editWare', (req, res) => {
+  Warehouse.update({code: req.body.code}, {$set: {am: req.body.warehouse}}, err => err ? console.log(err) : res.json('success'));
+});
+
 module.exports = router;

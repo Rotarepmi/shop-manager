@@ -16,4 +16,9 @@ router.get('/', function(req, res, next) {
   });
 });
 
+// Post edit functions
+router.post('/editSale', (req, res) => {
+  Sale.update({code: req.body.code}, {code: req.body.code, reduction: req.body.sale}, {upsert: true}, err => err ? console.log(err) : res.json('success'));
+});
+
 module.exports = router;

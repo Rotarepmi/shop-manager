@@ -12,4 +12,4 @@ const soldSchema = mongoose.Schema({
   }
 });
 
-const sold = module.exports = mongoose.model('sold', soldSchema);
+const sold = module.exports = mongoose.model('sold', soldSchema, 'sold');

@@ -16,4 +16,9 @@ router.get('/list', function(req, res, next) {
   });
 });
 
+// Post edit functions
+router.post('/editPrice', (req, res) => {
+  Prices.update({code: req.body.code}, {$set: {price: req.body.price}}, err => err ? console.log(err) : res.json('success'));
+});
+
 module.exports = router;

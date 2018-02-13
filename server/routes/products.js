@@ -64,7 +64,6 @@ router.post('/editCategory', (req, res) => {
 /* Sort ascending (descending for front end) by target value */
 router.get('/sortUp/:target', (req, res, next) => {
   const target = req.params.target;
-  console.log(target);
   Products.aggregate(
     [{
       $lookup: {
@@ -115,7 +114,6 @@ router.get('/sortUp/:target', (req, res, next) => {
 /* Sort descending (ascending for front end) by target value */
 router.get('/sortDown/:target', (req, res, next) => {
   const target = req.params.target;
-  console.log(target);
   Products.aggregate(
     [{
       $lookup: {
@@ -152,6 +150,80 @@ router.get('/sortDown/:target', (req, res, next) => {
     {
       $sort : {
         [target] : 1
+      }
+    }], (err, products) => {
+    if(err) {
+      console.log(err);
+    }
+    else {
+      res.json(products);
+    }
+  });
+});
+
+/* Aggregate by category */
+router.get('/categoryAggr/:category', (req, res, next) => {
+  const category = req.params.category;
+  Products.aggregate(
+    [{
+      $match : {
+        category: category
+      }
+    },
+    {
+      $lookup: {
+        from: "prices",
+        localField: "code",
+        foreignField: "code",
+        as: "prod_price"
+      }
+    },
+    {
+      $lookup: {
+        from: "warehouse",
+        localField: "code",
+        foreignField: "code",
+        as: "prod_ware"
+      }
+    },
+    {
+      $lookup: {
+        from: "sale",
+        localField: "code",
+        foreignField: "code",
+        as: "prod_sale"
+      }
+    },
+    {
+      $lookup: {
+        from: "sold",
+        localField: "code",
+        foreignField: "code",
+        as: "prod_sold"
+      }
+    }], (err, products) => {
+    if(err) {
+      console.log(err);
+    }
+    else {
+      res.json(products);
+    }
+  });
+});
+
+/* Group and count category items*/
+router.get('/categoryCount/:category', (req, res, next) => {
+  const category = req.params.category;
+  Products.aggregate(
+    [{
+      $match : {
+        category: category
+      }
+    },
+    {
+      $group : {
+        _id: null,
+        count: {$sum : 1}
       }
     }], (err, products) => {
     if(err) {

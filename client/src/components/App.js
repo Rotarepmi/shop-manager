@@ -6,10 +6,8 @@ class App extends Component {
     super(props);
     this.state = {
       products: [],
-      prices: [],
-      warehouse: [],
-      sale: [],
-      sold: []
+      categories: [],
+      prodAmount: [{count: null}]
     }
   }
 
@@ -21,7 +19,10 @@ class App extends Component {
     fetch('/products/list')
       .then(res => res ? res.json() : console.log('server error'))
       .then(products => {
-        this.setState({products});
+        let allCats = [];
+        products.map(product => allCats.push(product.category));
+        const categories = [...new Set(allCats)];
+        this.setState({products, categories});
       });
   }
 
@@ -129,7 +130,27 @@ class App extends Component {
           this.setState({products});
         });
     }
+  }
 
+  categoryAggr = (event) => {
+    event.preventDefault();
+    const select = document.querySelector('select');
+    const category = select.options[select.selectedIndex].value;
+    fetch('/products/categoryAggr/'+category)
+      .then(res => res ? res.json() : console.log('server error'))
+      .then(products => {
+        this.setState({products});
+      });
+
+    this.categoryCount(category);
+  }
+
+  categoryCount = (category) => {
+    fetch('/products/categoryCount/'+category)
+      .then(res => res ? res.json() : console.log('server error'))
+      .then(prodAmount => {
+        this.setState({prodAmount});
+      });
   }
 
   render() {
@@ -151,6 +172,21 @@ class App extends Component {
         </form>
 
         <h2>Lista produktów</h2>
+
+        <form onSubmit={this.categoryAggr}>
+          <select name="category">
+            {this.state.categories.map((category, index) =>
+              <option key={index} value={category}>{category}</option>
+            )}
+          </select>
+
+          <button>Wyszukaj kategorię</button>
+        </form>
+
+        <p id="productsInCat">
+          Liczba produktów: {this.state.prodAmount[0].count}
+        </p>
+
         <styles.Table>
           <tbody>
             <styles.TableRow>

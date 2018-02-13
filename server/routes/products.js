@@ -61,4 +61,106 @@ router.post('/editCategory', (req, res) => {
   Products.update({code: req.body.code}, {$set: {category: req.body.category}}, err => err ? console.log(err) : res.json('success'));
 });
 
+/* Sort ascending (descending for front end) by target value */
+router.get('/sortUp/:target', (req, res, next) => {
+  const target = req.params.target;
+  console.log(target);
+  Products.aggregate(
+    [{
+      $lookup: {
+        from: "prices",
+        localField: "code",
+        foreignField: "code",
+        as: "prod_price"
+      }
+    },
+    {
+      $lookup: {
+        from: "warehouse",
+        localField: "code",
+        foreignField: "code",
+        as: "prod_ware"
+      }
+    },
+    {
+      $lookup: {
+        from: "sale",
+        localField: "code",
+        foreignField: "code",
+        as: "prod_sale"
+      }
+    },
+    {
+      $lookup: {
+        from: "sold",
+        localField: "code",
+        foreignField: "code",
+        as: "prod_sold"
+      }
+    },
+    {
+      $sort : {
+        [target] : -1
+      }
+    }], (err, products) => {
+    if(err) {
+      console.log(err);
+    }
+    else {
+      res.json(products);
+    }
+  });
+});
+
+/* Sort descending (ascending for front end) by target value */
+router.get('/sortDown/:target', (req, res, next) => {
+  const target = req.params.target;
+  console.log(target);
+  Products.aggregate(
+    [{
+      $lookup: {
+        from: "prices",
+        localField: "code",
+        foreignField: "code",
+        as: "prod_price"
+      }
+    },
+    {
+      $lookup: {
+        from: "warehouse",
+        localField: "code",
+        foreignField: "code",
+        as: "prod_ware"
+      }
+    },
+    {
+      $lookup: {
+        from: "sale",
+        localField: "code",
+        foreignField: "code",
+        as: "prod_sale"
+      }
+    },
+    {
+      $lookup: {
+        from: "sold",
+        localField: "code",
+        foreignField: "code",
+        as: "prod_sold"
+      }
+    },
+    {
+      $sort : {
+        [target] : 1
+      }
+    }], (err, products) => {
+    if(err) {
+      console.log(err);
+    }
+    else {
+      res.json(products);
+    }
+  });
+});
+
 module.exports = router;

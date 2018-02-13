@@ -113,6 +113,25 @@ class App extends Component {
     .then(response => {if(response) this.fetchList()});
   }
 
+  sortList = (target, dir, e) => {
+    e.preventDefault();
+    if(dir) {
+      fetch('/products/sortUp/'+target)
+        .then(res => res ? res.json() : console.log('server error'))
+        .then(products => {
+          this.setState({products});
+        });
+    }
+    else{
+      fetch('/products/sortDown/'+target)
+        .then(res => res ? res.json() : console.log('server error'))
+        .then(products => {
+          this.setState({products});
+        });
+    }
+
+  }
+
   render() {
     return (
       <styles.MainDiv>
@@ -140,30 +159,134 @@ class App extends Component {
               </styles.TableHeader>
               <styles.TableHeader>
                 Kod
+                <div>
+                  <styles.SortBtn type="button"
+                    onClick={(e) => this.sortList('code', true, e)}
+                  >
+                    &uarr;
+                  </styles.SortBtn>
+
+                  <styles.SortBtn type="button"
+                    onClick={(e) => this.sortList('code', false, e)}
+                  >
+                    &darr;
+                  </styles.SortBtn>
+                </div>
               </styles.TableHeader>
               <styles.TableHeader>
                 Nazwa
+                <div>
+                  <styles.SortBtn type="button"
+                    onClick={(e) => this.sortList('name', true, e)}
+                  >
+                    &uarr;
+                  </styles.SortBtn>
+
+                  <styles.SortBtn type="button"
+                    onClick={(e) => this.sortList('name', false, e)}
+                  >
+                    &darr;
+                  </styles.SortBtn>
+                </div>
               </styles.TableHeader>
               <styles.TableHeader>
                 Producent
+                <div>
+                  <styles.SortBtn type="button"
+                    onClick={(e) => this.sortList('manufacturer', true, e)}
+                  >
+                    &uarr;
+                  </styles.SortBtn>
+
+                  <styles.SortBtn type="button"
+                    onClick={(e) => this.sortList('manufacturer', false, e)}
+                  >
+                    &darr;
+                  </styles.SortBtn>
+                </div>
               </styles.TableHeader>
               <styles.TableHeader>
                 Kategoria
+                <div>
+                  <styles.SortBtn type="button"
+                    onClick={(e) => this.sortList('category', true, e)}
+                  >
+                    &uarr;
+                  </styles.SortBtn>
+
+                  <styles.SortBtn type="button"
+                    onClick={(e) => this.sortList('category', false, e)}
+                  >
+                    &darr;
+                  </styles.SortBtn>
+                </div>
               </styles.TableHeader>
               <styles.TableHeader>
                 Cena (przed obniżką) zł
+                <div>
+                  <styles.SortBtn type="button"
+                    onClick={(e) => this.sortList('prod_price.price', true, e)}
+                  >
+                    &uarr;
+                  </styles.SortBtn>
+
+                  <styles.SortBtn type="button"
+                    onClick={(e) => this.sortList('prod_price.price', false, e)}
+                  >
+                    &darr;
+                  </styles.SortBtn>
+                </div>
               </styles.TableHeader>
               <styles.TableHeader>
                 Obniżka %
+                <div>
+                  <styles.SortBtn type="button"
+                    onClick={(e) => this.sortList('prod_sale.reduction', true, e)}
+                  >
+                    &uarr;
+                  </styles.SortBtn>
+
+                  <styles.SortBtn type="button"
+                    onClick={(e) => this.sortList('prod_sale.reduction', false, e)}
+                  >
+                    &darr;
+                  </styles.SortBtn>
+                </div>
               </styles.TableHeader>
               <styles.TableHeader>
                 Cena (po obniżce) zł
               </styles.TableHeader>
               <styles.TableHeader>
                 Magazyn
+                <div>
+                  <styles.SortBtn type="button"
+                    onClick={(e) => this.sortList('prod_ware.am', true, e)}
+                  >
+                    &uarr;
+                  </styles.SortBtn>
+
+                  <styles.SortBtn type="button"
+                    onClick={(e) => this.sortList('prod_ware.am', false, e)}
+                  >
+                    &darr;
+                  </styles.SortBtn>
+                </div>
               </styles.TableHeader>
               <styles.TableHeader>
                 Sprzedano
+                <div>
+                  <styles.SortBtn type="button"
+                    onClick={(e) => this.sortList('prod_sold.amount', true, e)}
+                  >
+                    &uarr;
+                  </styles.SortBtn>
+
+                  <styles.SortBtn type="button"
+                    onClick={(e) => this.sortList('prod_sold.amount', false, e)}
+                  >
+                    &darr;
+                  </styles.SortBtn>
+                </div>
               </styles.TableHeader>
             </styles.TableRow>
 

@@ -58,6 +58,18 @@ const DeleteBtn = styled.button`
   }
 `;
 
-const styles = { MainDiv, Table, TableData, TableHeader, TableRow, Input, FormTable, InputTable, DeleteBtn };
+const SortBtn = styled.button`
+  border: none;
+  background: none;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+
+  &:hover {
+    color: silver;
+  }
+`;
+
+const styles = { MainDiv, Table, TableData, TableHeader, TableRow, Input, FormTable, InputTable, DeleteBtn, SortBtn };
 
 export default styles;

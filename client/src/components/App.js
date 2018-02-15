@@ -7,7 +7,7 @@ class App extends Component {
     this.state = {
       products: [],
       categories: [],
-      prodAmount: [{count: null}]
+      totalPrice: [{totalPrice: null, count: null}]
     }
   }
 
@@ -24,6 +24,8 @@ class App extends Component {
         const categories = [...new Set(allCats)];
         this.setState({products, categories});
       });
+      
+    this.categoryCount('all');
   }
 
   addProduct = (event) => {
@@ -148,8 +150,9 @@ class App extends Component {
   categoryCount = (category) => {
     fetch('/products/categoryCount/'+category)
       .then(res => res ? res.json() : console.log('server error'))
-      .then(prodAmount => {
-        this.setState({prodAmount});
+      .then(totalPrice => {
+        console.log(totalPrice);
+        this.setState({totalPrice});
       });
   }
 
@@ -183,8 +186,11 @@ class App extends Component {
           <button>Wyszukaj kategorię</button>
         </form>
 
-        <p id="productsInCat">
-          Liczba produktów: {this.state.prodAmount[0].count}
+        <p>
+          Unikalnych produktów: {this.state.totalPrice[0].count}
+        </p>
+        <p>
+          Wartość łączna: {this.state.totalPrice[0].totalPrice}zł
         </p>
 
         <styles.Table>

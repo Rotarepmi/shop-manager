@@ -213,26 +213,116 @@ router.get('/categoryAggr/:category', (req, res, next) => {
 
 /* Group and count category items*/
 router.get('/categoryCount/:category', (req, res, next) => {
-  const category = req.params.category;
-  Products.aggregate(
-    [{
-      $match : {
-        category: category
+  let category = req.params.category;
+
+  if(category != "all"){
+    Products.aggregate(
+      [{
+        $match : {
+          category: category
+        }
+      },
+      {
+        $lookup: {
+          from: "prices",
+          localField: "code",
+          foreignField: "code",
+          as: "prod_price"
+        }
+      },
+      {
+        $lookup: {
+          from: "warehouse",
+          localField: "code",
+          foreignField: "code",
+          as: "prod_ware"
+        }
+      },
+      {
+        $lookup: {
+          from: "sale",
+          localField: "code",
+          foreignField: "code",
+          as: "prod_sale"
+        }
+      },
+      {
+        $lookup: {
+          from: "sold",
+          localField: "code",
+          foreignField: "code",
+          as: "prod_sold"
+        }
+      },
+      { "$unwind": "$prod_price" },
+      { "$unwind": "$prod_ware" },
+      {
+        $group : {
+          _id: null,
+          totalPrice: { $sum: { $multiply: ["$prod_price.price", "$prod_ware.am"]}},
+          count: { $sum: 1 }
+        }
+      }], (err, products) => {
+      if(err) {
+        console.log(err);
       }
-    },
-    {
-      $group : {
-        _id: null,
-        count: {$sum : 1}
+      else {
+        res.json(products);
       }
-    }], (err, products) => {
-    if(err) {
-      console.log(err);
-    }
-    else {
-      res.json(products);
-    }
-  });
+    });
+  }
+  else{
+    Products.aggregate(
+      [{
+        $lookup: {
+          from: "prices",
+          localField: "code",
+          foreignField: "code",
+          as: "prod_price"
+        }
+      },
+      {
+        $lookup: {
+          from: "warehouse",
+          localField: "code",
+          foreignField: "code",
+          as: "prod_ware"
+        }
+      },
+      {
+        $lookup: {
+          from: "sale",
+          localField: "code",
+          foreignField: "code",
+          as: "prod_sale"
+        }
+      },
+      {
+        $lookup: {
+          from: "sold",
+          localField: "code",
+          foreignField: "code",
+          as: "prod_sold"
+        }
+      },
+      { "$unwind": "$prod_price" },
+      { "$unwind": "$prod_ware" },
+      {
+        $group : {
+          _id: null,
+          totalPrice: { $sum: { $multiply: ["$prod_price.price", "$prod_ware.am"]}},
+          count: { $sum: 1 }
+        }
+      }], (err, products) => {
+      if(err) {
+        console.log(err);
+      }
+      else {
+        res.json(products);
+      }
+    });
+  }
+
 });
 
 module.exports = router;
